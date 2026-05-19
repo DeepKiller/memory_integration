@@ -1,0 +1,4 @@
+https://medium.com/@rajesh1402/adding-long-term-memory-to-a-chatbot-with-mem0-46680dc3d629
+https://docs.mem0.ai/cookbooks/companions/local-companion-ollama
+https://docs.mem0.ai/components/llms/models/ollama
+https://github.com/home-assistant/core/tree/dev/homeassistant/components/telegram_bot
