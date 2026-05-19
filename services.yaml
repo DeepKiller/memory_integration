@@ -1,0 +1,10 @@
+check_memory:
+  fields:
+    chat_id:
+      required: true
+      selector:
+        text:
+    message:
+      required: true
+      selector:
+        text:
