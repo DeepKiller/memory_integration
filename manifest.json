@@ -1,8 +1,0 @@
-{
-  "domain": "memory_integration",
-  "name": "Memory integration",
-  "integration_type": "service",
-  "requirements": ["mem0ai==2.0.2"],
-  "codeowners": ["@ImBannana"],
-  "config_flow": false
-}
