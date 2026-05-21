@@ -9,8 +9,7 @@ def get_client():
     return client
     
 def create_collection(client:QdrantClient):
-    collection = client.get_collection(collection_name=const.DB_NAME)
-    if collection:
-        return
-    
-    client.create_collection(collection_name=const.DB_NAME, vectors_config=VectorParams(size=768, distance=Distance.COSINE))
+    try:
+        collection = client.get_collection(collection_name=const.DB_NAME)
+    except:
+        client.create_collection(collection_name=const.DB_NAME, vectors_config=VectorParams(size=768, distance=Distance.COSINE))
