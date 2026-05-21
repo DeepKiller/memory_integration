@@ -11,7 +11,6 @@ def embed(data):
         model=const.EMBED_MODEL,
         input=data,
         truncate=False,
-        dimensions=const.EMBED_DIMENSIONS,
     )["embeddings"]
 
 
