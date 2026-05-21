@@ -1,15 +1,44 @@
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams
+from qdrant_client.models import Distance, VectorParams, PointStruct
+from llm_manager import embed
 import const
-import ollama
+
 
 def get_client():
     client = QdrantClient(path=const.DB_PATH)
     create_collection(client)
     return client
-    
-def create_collection(client:QdrantClient):
-    try:
-        collection = client.get_collection(collection_name=const.DB_NAME)
-    except:
-        client.create_collection(collection_name=const.DB_NAME, vectors_config=VectorParams(size=768, distance=Distance.COSINE))
+
+
+def create_collection(client: QdrantClient):
+    if client.collection_exists(collection_name=const.DB_NAME):
+        return
+    client.create_collection(
+        collection_name=const.DB_NAME,
+        vectors_config=VectorParams(
+            size=const.EMBED_DIMENSIONS, distance=Distance.COSINE
+        ),
+    )
+
+
+def insert_data(data, message_id):
+    vect = embed(data)
+    client = get_client()
+    client.upsert(
+        collection_name=const.DB_NAME,
+        wait=False,
+        points=[PointStruct(id=message_id, vector=vect, payload={"data": data})],
+    )
+
+
+def load_data(pattern):
+    vect = embed(pattern)
+    client = get_client()
+    memories = []
+
+    for point in client.query_points(
+        collection_name=const.DB_NAME, query=vect, limit=5
+    ).points:
+        memories.append(point["payload"]["data"])
+
+    return memories
