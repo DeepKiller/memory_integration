@@ -37,7 +37,7 @@ def load_data(pattern):
     memories = []
 
     for point in client.query_points(
-        collection_name=const.DB_NAME, query=vect, limit=10
+        collection_name=const.DB_NAME, query=vect, limit=10, score_threshold=0.5
     ).points:
         memories.append(point.payload["data"])
 
